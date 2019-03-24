@@ -1,0 +1,22 @@
+build: off
+
+clone_folder: c:\github.com\nukosuke\garoon
+
+environment:
+  GOPATH: c:\gopath
+  GO111MODULE: on
+
+cache:
+  - '%GOPATH%\pkg\mod'
+
+stack: go 1.11
+
+install:
+  - go mod download
+
+before_test:
+  - go vet ./...
+
+test_script:
+  - go test -v ./...
+
