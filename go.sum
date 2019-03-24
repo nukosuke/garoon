@@ -1,0 +1,11 @@
+github.com/jarcoal/httpmock v0.0.0-20181110092731-53def6cd0f87/go.mod h1:ks+b9deReOc7jgqp+e7LuFiCBH6Rm5hL32cLcEAArb4=
+github.com/jarcoal/httpmock v1.0.0 h1:AP/JEJFRez89+eiEDFqi6v49Oo0pGpOaM8k5wrDLyw0=
+github.com/jarcoal/httpmock v1.0.0/go.mod h1:ATjnClrvW/3tijVmpL/va5Z3aAyGvqU3gCT8nX0Txik=
+github.com/otoyo/garoon v0.1.2 h1:dWFI7oaARuxzWEgMXgAjjnI3be9sodrEZRJCIXza93A=
+github.com/otoyo/garoon v0.1.2/go.mod h1:MkYW0YuWsborQexuOrJBAjX00SMuUNEqxJ67ocjE9f0=
+github.com/otoyo/garoon v0.1.3-0.20190324075821-15bef9b6292f h1:xRVZxwRCe0f5GnbackbOW1QEbEIbKNQHl+Y7w5pQMHs=
+github.com/otoyo/garoon v0.1.3-0.20190324075821-15bef9b6292f/go.mod h1:+1q01qTKUhIFG5tqZU9+JDAJCwquZ4quikKfwe+qUS8=
+github.com/spf13/cobra v0.0.3 h1:ZlrZ4XsMRm04Fr5pSFxBgfND2EBVa1nLpiy1stUsX/8=
+github.com/spf13/cobra v0.0.3/go.mod h1:1l0Ry5zgKvJasoi3XT1TypsSe7PqH0Sj9dhYf7v3XqQ=
+github.com/spf13/pflag v1.0.3 h1:zPAT6CGy6wXeQ7NtTnaTerfKOsV6V6F8agHXFiazDkg=
+github.com/spf13/pflag v1.0.3/go.mod h1:DYY7MBk1bdzusC3SYhjObp+wFpr4gzcvqqNjLnInEg4=
