@@ -23,6 +23,7 @@ func init() {
 	root.PersistentFlags().StringVarP(&username, "username", "u", "", "ログインユーザ名")
 	root.PersistentFlags().StringVarP(&password, "password", "p", "", "ログインユーザのパスワード")
 
+	viper.BindPFlag("subdomain", root.PersistentFlags().Lookup("subdomain"))
 	viper.BindPFlag("username", root.PersistentFlags().Lookup("username"))
 	viper.BindPFlag("password", root.PersistentFlags().Lookup("password"))
 }
