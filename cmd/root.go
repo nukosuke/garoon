@@ -19,12 +19,12 @@ garoon v0.0.0 --- Cybozu Garoonのコマンドラインツール
         バグレポートはこちらにお願いします。
         https://github.com/nukosuke/garoon`,
 	PersistentPreRun: func(cmd *cobra.Command, args []string) {
-		client, err := garoon.NewClient(subdomain, username, password)
+		c, err := garoon.NewClient(subdomain, username, password)
 		if err != nil {
 			fmt.Println("エラー: ", err)
 			os.Exit(1)
 		}
-		_ = client
+		client = c
 	},
 }
 
