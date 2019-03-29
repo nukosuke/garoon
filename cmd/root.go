@@ -13,7 +13,8 @@ var client *garoon.Client
 var root = &cobra.Command{
 	Use:   "garoon",
 	Short: "Cybozu Garoonコマンド",
-	Long: `Cybozu Garoonのコマンドラインツールです。
+	Long: `
+garoon v0.0.0 --- Cybozu Garoonのコマンドラインツール
 
         バグレポートはこちらにお願いします。
         https://github.com/nukosuke/garoon`,
