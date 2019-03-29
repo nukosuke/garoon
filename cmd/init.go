@@ -19,9 +19,9 @@ func init() {
 	cobra.OnInitialize(initConfig)
 
 	root.PersistentFlags().StringVar(&configFile, "config", "", "設定ファイルのパス (デフォルトは $HOME/.config/garoon/config.yml)")
-	root.PersistentFlags().StringVarP(&subdomain, "subdomain", "d", "", "Garoonのサブドメイン")
-	root.PersistentFlags().StringVarP(&username, "username", "u", "", "ログインユーザ名")
-	root.PersistentFlags().StringVarP(&password, "password", "p", "", "ログインユーザのパスワード")
+	root.PersistentFlags().StringVarP(&subdomain, "subdomain", "d", "", "Garoonのサブドメイン (設定ファイルがある場合は無視されます)")
+	root.PersistentFlags().StringVarP(&username, "username", "u", "", "ログインユーザ名 (設定ファイルがある場合は無視されます)")
+	root.PersistentFlags().StringVarP(&password, "password", "p", "", "ログインユーザのパスワード (設定ファイルがある場合は無視されます)")
 
 	viper.BindPFlag("subdomain", root.PersistentFlags().Lookup("subdomain"))
 	viper.BindPFlag("username", root.PersistentFlags().Lookup("username"))
