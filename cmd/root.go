@@ -6,6 +6,7 @@ import (
 
 	"github.com/otoyo/garoon"
 	"github.com/spf13/cobra"
+	"github.com/spf13/viper"
 )
 
 var client *garoon.Client
@@ -19,7 +20,11 @@ garoon v0.0.0 --- Cybozu Garoonのコマンドラインツール
         バグレポートはこちらにお願いします。
         https://github.com/nukosuke/garoon`,
 	PersistentPreRun: func(cmd *cobra.Command, args []string) {
-		c, err := garoon.NewClient(subdomain, username, password)
+		c, err := garoon.NewClient(
+			viper.GetString("subdomain"),
+			viper.GetString("username"),
+			viper.GetString("password"))
+
 		if err != nil {
 			fmt.Println("エラー: ", err)
 			os.Exit(1)
