@@ -11,6 +11,7 @@ github.com/hashicorp/hcl v1.0.0/go.mod h1:E5yfLk+7swimpb2L/Alb/PJmXilQ/rhwaUYs4T
 github.com/jarcoal/httpmock v0.0.0-20181110092731-53def6cd0f87/go.mod h1:ks+b9deReOc7jgqp+e7LuFiCBH6Rm5hL32cLcEAArb4=
 github.com/jarcoal/httpmock v1.0.0 h1:AP/JEJFRez89+eiEDFqi6v49Oo0pGpOaM8k5wrDLyw0=
 github.com/jarcoal/httpmock v1.0.0/go.mod h1:ATjnClrvW/3tijVmpL/va5Z3aAyGvqU3gCT8nX0Txik=
+github.com/jarcoal/httpmock v1.0.1 h1:OXIOrglWeSllwHQGJ5X4PX4hFZK1DPCXSJVhMSJacg8=
 github.com/jarcoal/httpmock v1.0.1/go.mod h1:ATjnClrvW/3tijVmpL/va5Z3aAyGvqU3gCT8nX0Txik=
 github.com/magiconair/properties v1.8.0 h1:LLgXmsheXeRoUOBOjtwPQCWIYqM/LU1ayDtDePerRcY=
 github.com/magiconair/properties v1.8.0/go.mod h1:PppfXfuXeibc/6YijjN8zIbojt8czPbwD3XqdrwzmxQ=
