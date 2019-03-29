@@ -1,15 +1,41 @@
 package cmd
 
 import (
+	"bytes"
 	"fmt"
 	"net/url"
 	"os"
 	"strconv"
 	"strings"
+	"text/template"
 	//	"time"
 
 	"github.com/otoyo/garoon"
 	"github.com/spf13/cobra"
+)
+
+// TODO: --no-template option
+var eventListViewColumns = []string{
+	"id",
+	"start",
+	"end",
+	"subject",
+}
+
+const (
+	eventListViewRowTmpl = "{{.ID}}\t{{.Start.DateTime}}\t{{.End.DateTime}}\t{{.Subject}}\n"
+
+	eventInfoViewTmpl = `Subject: {{.Subject}}
+Start: {{.Start.DateTime}}
+End: {{.End.DateTime}}
+Attendees: {{joinAttendees .Attendees ", "}}
+Facilities: {{joinFacilities .Facilities ", "}}
+Event-Type: {{.EventType}}
+ID: {{.ID}}
+Repeat-ID: {{noneIfEmpty .RepeatID}}
+
+{{.Notes}}
+`
 )
 
 var event = &cobra.Command{
@@ -25,7 +51,7 @@ var eventList = &cobra.Command{
 	// -r 2019-03-01:2019-03-31
 	Run: func(cmd *cobra.Command, args []string) {
 		v := url.Values{}
-		v.Add("fields", "id,start,end,subject")
+		v.Add("fields", strings.Join(eventListViewColumns, ","))
 
 		// TODO: paging
 		pager, err := client.SearchEvents(v)
@@ -34,9 +60,23 @@ var eventList = &cobra.Command{
 			os.Exit(1)
 		}
 
-		for _, event := range pager.Events {
-			fmt.Printf("%d\t[%s ~ %s]\t%s\n", event.ID, event.Start.DateTime.Format("2006/01/02 15:04"), event.End.DateTime.Format("2006/01/02 15:04"), event.Subject)
+		t := template.
+			Must(template.
+				New("row").
+				Parse(eventListViewRowTmpl))
+		if err != nil {
+			fmt.Println("エラー: ", err)
+			os.Exit(1)
 		}
+
+		var buf bytes.Buffer
+		for _, event := range pager.Events {
+			if err = t.Execute(&buf, event); err != nil {
+				fmt.Println("エラー: ", err)
+				os.Exit(1)
+			}
+		}
+		fmt.Print(buf.String())
 	},
 }
 
@@ -56,28 +96,42 @@ var eventInfo = &cobra.Command{
 			os.Exit(1)
 		}
 
-		// FIXME: use template
-		fmt.Printf(`Subject: %s
-Start: %s
-End: %s
-Attendees: %s
-Facilities: %s
-Event-Type: %s
-ID: %d
-Repeat-ID: %s
+		t := template.
+			Must(template.
+				New("info").
+				Funcs(template.FuncMap{
+					"joinAttendees":  joinAttendees,
+					"joinFacilities": joinFacilities,
+					"noneIfEmpty":    noneIfEmpty,
+				}).
+				Parse(eventInfoViewTmpl))
+		if err != nil {
+			fmt.Println("エラー: ", err)
+			os.Exit(1)
+		}
 
-%s
-`,
-			event.Subject,
-			event.Start.DateTime.Format("Mon Jan _2 15:04:05 2006"),
-			event.End.DateTime.Format("Mon Jan _2 15:04:05 2006"),
-			joinAttendees(event.Attendees, ", "),
-			joinFacilities(event.Facilities, ", "),
-			event.EventType,
-			event.ID,
-			noneIfEmpty(event.RepeatID),
-			event.Notes,
-		)
+		var buf bytes.Buffer
+		if err = t.Execute(&buf, event); err != nil {
+			fmt.Println("エラー: ", err)
+			os.Exit(1)
+		}
+
+		fmt.Print(buf.String())
+
+		// FIXME: use template
+		/*
+			fmt.Printf(eventInfoViewTmpl,
+				event.Subject,
+				event.Start.DateTime.Format("Mon Jan _2 15:04:05 2006"),
+				event.End.DateTime.Format("Mon Jan _2 15:04:05 2006"),
+				joinAttendees(event.Attendees, ", "),
+				joinFacilities(event.Facilities, ", "),
+				event.EventType,
+				event.ID,
+				noneIfEmpty(event.RepeatID),
+				event.Notes,
+			)
+		*/
 	},
 }
 
