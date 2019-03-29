@@ -1,9 +1,10 @@
 package main
 
 import (
+	"github.com/nukosuke/garoon/cmd"
 	_ "github.com/otoyo/garoon"
-	_ "github.com/spf13/cobra"
 )
 
 func main() {
+	cmd.Execute()
 }
