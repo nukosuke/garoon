@@ -8,7 +8,7 @@ import (
 	"strconv"
 	"strings"
 	"text/template"
-	//	"time"
+	"time"
 
 	"github.com/otoyo/garoon"
 	"github.com/spf13/cobra"
@@ -52,6 +52,10 @@ var eventList = &cobra.Command{
 	Run: func(cmd *cobra.Command, args []string) {
 		v := url.Values{}
 		v.Add("fields", strings.Join(eventListViewColumns, ","))
+
+		now := time.Now()
+		v.Add("rangeStart", dateFormat(beginningOfDay(now)))
+		v.Add("rangeEnd", dateFormat(endOfDay(now)))
 
 		// TODO: paging
 		pager, err := client.SearchEvents(v)
@@ -152,4 +156,18 @@ func noneIfEmpty(s string) string {
 		return "None"
 	}
 	return s
+}
+
+func beginningOfDay(t time.Time) time.Time {
+	y, m, d := t.Date()
+	return time.Date(y, m, d, 0, 0, 0, 0, t.Location())
+}
+
+func endOfDay(t time.Time) time.Time {
+	y, m, d := t.Date()
+	return time.Date(y, m, d+1, 0, 0, -1, 0, t.Location())
+}
+
+func dateFormat(t time.Time) string {
+	return t.Format("2006-01-02T15:04:05-07:00")
 }
