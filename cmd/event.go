@@ -57,27 +57,31 @@ var eventList = &cobra.Command{
 		v.Add("rangeStart", dateFormat(beginningOfDay(now)))
 		v.Add("rangeEnd", dateFormat(endOfDay(now)))
 
-		// TODO: paging
-		pager, err := client.SearchEvents(v)
-		if err != nil {
-			fmt.Println("エラー: ", err)
-			os.Exit(1)
-		}
-
-		t := template.
-			Must(template.
-				New("row").
-				Parse(eventListViewRowTmpl))
-		if err != nil {
-			fmt.Println("エラー: ", err)
-			os.Exit(1)
-		}
-
 		var buf bytes.Buffer
-		for _, event := range pager.Events {
-			if err = t.Execute(&buf, event); err != nil {
+		for page, hasNext := 0, true; hasNext; page++ {
+			v.Set("offset", strconv.Itoa(page*100))
+
+			pager, err := client.SearchEvents(v)
+			if err != nil {
 				fmt.Println("エラー: ", err)
 				os.Exit(1)
+			}
+			hasNext = pager.HasNext
+
+			t := template.
+				Must(template.
+					New("row").
+					Parse(eventListViewRowTmpl))
+			if err != nil {
+				fmt.Println("エラー: ", err)
+				os.Exit(1)
+			}
+
+			for _, event := range pager.Events {
+				if err = t.Execute(&buf, event); err != nil {
+					fmt.Println("エラー: ", err)
+					os.Exit(1)
+				}
 			}
 		}
 		fmt.Print(buf.String())
