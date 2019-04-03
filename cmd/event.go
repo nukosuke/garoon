@@ -10,6 +10,7 @@ import (
 	"text/template"
 	"time"
 
+	"github.com/nukosuke/garoon/utility"
 	"github.com/otoyo/garoon"
 	"github.com/spf13/cobra"
 )
@@ -54,8 +55,8 @@ var eventList = &cobra.Command{
 		v.Add("fields", strings.Join(eventListViewColumns, ","))
 
 		now := time.Now()
-		v.Add("rangeStart", dateFormat(beginningOfDay(now)))
-		v.Add("rangeEnd", dateFormat(endOfDay(now)))
+		v.Add("rangeStart", utility.DateFormat(utility.BeginningOfDay(now)))
+		v.Add("rangeEnd", utility.DateFormat(utility.EndOfDay(now)))
 
 		var buf bytes.Buffer
 		for page, hasNext := 0, true; hasNext; page++ {
@@ -160,18 +161,4 @@ func noneIfEmpty(s string) string {
 		return "None"
 	}
 	return s
-}
-
-func beginningOfDay(t time.Time) time.Time {
-	y, m, d := t.Date()
-	return time.Date(y, m, d, 0, 0, 0, 0, t.Location())
-}
-
-func endOfDay(t time.Time) time.Time {
-	y, m, d := t.Date()
-	return time.Date(y, m, d+1, 0, 0, -1, 0, t.Location())
-}
-
-func dateFormat(t time.Time) string {
-	return t.Format("2006-01-02T15:04:05-07:00")
 }
