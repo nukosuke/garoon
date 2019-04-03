@@ -8,7 +8,7 @@
 ## インストール
 
 ``` shell
-$ go install github.com/nukosuke/garoon
+$ go get github.com/nukosuke/garoon
 ```
 
 ## 設定
