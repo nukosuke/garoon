@@ -10,6 +10,7 @@ import (
 	"text/template"
 	"time"
 
+	"github.com/nukosuke/garoon/utility"
 	"github.com/otoyo/garoon"
 	"github.com/spf13/cobra"
 )
@@ -43,6 +44,8 @@ var event = &cobra.Command{
 	Short: "予定の取得コマンド",
 }
 
+var eventRange string
+
 var eventList = &cobra.Command{
 	Use:   "ls",
 	Short: "予定リストを取得します。",
@@ -53,9 +56,37 @@ var eventList = &cobra.Command{
 		v := url.Values{}
 		v.Add("fields", strings.Join(eventListViewColumns, ","))
 
-		now := time.Now()
-		v.Add("rangeStart", dateFormat(beginningOfDay(now)))
-		v.Add("rangeEnd", dateFormat(endOfDay(now)))
+		var start, end string
+		if eventRange == "" {
+			now := time.Now()
+			start = utility.DateFormat(utility.BeginningOfDay(now))
+			end = utility.DateFormat(utility.EndOfDay(now))
+		} else {
+			// TODO: funcに切り分ける
+
+			rangeTimes := strings.Split(eventRange, "-")
+			if len(rangeTimes) < 2 {
+				fmt.Println("エラー: 不正な期間指定です。")
+				os.Exit(1)
+			}
+
+			startTime, err := time.Parse("2006/01/02", rangeTimes[0])
+			if err != nil {
+				fmt.Println("エラー: 不正な期間指定です。", err)
+				os.Exit(1)
+			}
+
+			endTime, err := time.Parse("2006/01/02", rangeTimes[1])
+			if err != nil {
+				fmt.Println("エラー: 不正な期間指定です。", err)
+				os.Exit(1)
+			}
+
+			start = utility.DateFormat(utility.BeginningOfDay(startTime))
+			end = utility.DateFormat(utility.EndOfDay(endTime))
+		}
+		v.Add("rangeStart", start)
+		v.Add("rangeEnd", end)
 
 		var buf bytes.Buffer
 		for page, hasNext := 0, true; hasNext; page++ {
@@ -129,6 +160,8 @@ var eventInfo = &cobra.Command{
 }
 
 func init() {
+	eventList.PersistentFlags().StringVarP(&eventRange, "range", "r", "", `取得するイベントの期間を指定します。( 例: -r 2019/04/01-2019/05/31 )
+指定がない場合は当日の 00時00分 から 23時59分 までが取得期間となります。`)
 	event.AddCommand(eventList)
 	event.AddCommand(eventInfo)
 }
@@ -160,18 +193,4 @@ func noneIfEmpty(s string) string {
 		return "None"
 	}
 	return s
-}
-
-func beginningOfDay(t time.Time) time.Time {
-	y, m, d := t.Date()
-	return time.Date(y, m, d, 0, 0, 0, 0, t.Location())
-}
-
-func endOfDay(t time.Time) time.Time {
-	y, m, d := t.Date()
-	return time.Date(y, m, d+1, 0, 0, -1, 0, t.Location())
-}
-
-func dateFormat(t time.Time) string {
-	return t.Format("2006-01-02T15:04:05-07:00")
 }
