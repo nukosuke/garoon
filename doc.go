@@ -7,6 +7,8 @@ Requirements
 
 Installation
 
+下記コマンドでインストールします。
+
   $ go install github.com/nukosuke/garoon
 
 Configuration
@@ -15,6 +17,11 @@ Configuration
 設定ファイルを記述しておくといちいち入力しなくてすむので便利です。
 デフォルトでは $HOME/.config/garoon/config.yml を参照します。
 設定ファイルのパスは --config オプションで指定することもできます。
+
+  $ cat ~/.config/garoon/config.yml
+  subdomain: <Garoonサブドメイン>
+  username: <Garoonユーザ名>
+  password: <Garoonパスワード>
 
 Usage
 
