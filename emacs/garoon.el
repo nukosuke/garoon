@@ -69,14 +69,22 @@ Auth token is BASE64 encoded string which form of \"LOGIN:PASSWORD\"."
          (end-string (if (string= end "") today end)))
     (with-current-buffer buf
       (erase-buffer)
-      (let ((result (shell-command-to-string
+      (let* ((stdout (shell-command-to-string
                (concat "garoon event ls"
                        " -d " garoon/subdomain
                        " -u " garoon/user-login
                        " -p " garoon/user-password
-                       " --range " start-string "-" end-string))))
+                       " --range " start-string "-" end-string)))
+             (rows (mapcar (lambda (row)
+                             (split-string row "\t"))
+                           (split-string stdout "\n"))))
         (garoon-mode)
-        (insert result)
+        (cl-dolist (row rows)
+          (if (= (length row) 4)
+              (insert (format "[%s] [%s] %s\n"
+                              (nth 1 row)
+                              (nth 2 row)
+                              (nth 3 row)))))
         (pop-to-buffer buf)))))
 
 (defun garoon/event-info (id)
