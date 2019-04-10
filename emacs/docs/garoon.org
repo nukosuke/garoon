@@ -1,0 +1,20 @@
+#+title: garoon: GNU Emacs interface
+#+author: nukosuke <nukosuke@lavabit.com>
+#+date: 2019
+
+* インストール
+  リリースページから最新版をダウンロードし、展開したディレクトリをEmacsの ~load-path~ に配置してください。
+  配置後、init.elで以下のように設定しEmacsを再起動してください。
+
+  #+begin_src emacs-lisp
+  (require 'garoon)
+
+  (setq garoon-url           "my-company-garoon-domain.cybozu.com")
+  (setq garoon-user-login    "my-garoon-user-login-name")
+  (setq garoon-user-password "my-garoon-password")
+  #+end_src
+
+* コマンド
+  | コマンド              | デフォルトキーバインド | 説明                                                      |
+  |-----------------------+------------------------+-----------------------------------------------------------|
+  | ~M-x garoon-dispatch~ | なし                   | garoon-modeを起動しコマンドのナビゲーションを表示します。 |
