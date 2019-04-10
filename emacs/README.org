@@ -1,0 +1,22 @@
+#+title: garoon.el
+#+author: nukosuke <nukosuke@lavabit.com>
+#+date: 2019
+
+#+ATTR_HTML: title="Build Status"
+[[https://travis-ci.org/nukosuke/emacs-garoon][file:https://travis-ci.org/nukosuke/emacs-garoon.svg?branch=master]]
+
+Cybozu Garoonクライアント for Emacs.
+
+** 動作環境
+   + GNU Emacs >= 25.1
+   + Cybozu Garoon クラウド版
+
+** ドキュメント
+   + TODO: ユーザマニュアル
+
+**  Copying
+   Copyright (C) 2019 nukosuke.
+
+   本ソフトウェアはGPLバージョン3でライセンスされています。
+
+   詳しくは[[./COPYING][COPYING]]をご覧ください。

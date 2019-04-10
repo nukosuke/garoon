@@ -1,3 +1,4 @@
+(package-file "garoon.el")
+
 (source gnu)
 (source melpa)
-
